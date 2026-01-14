@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <title>yeu mitt</title>
+  <title>mit yeuu</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     * {
@@ -23,44 +23,97 @@
     }
 
     .center-text {
-      font-size: 4rem;
+      position: absolute;
+      font-size: 4.2rem;
       font-weight: bold;
       color: #ff4d88;
       cursor: pointer;
       user-select: none;
-      transition: transform 0.3s ease, opacity 0.3s ease;
-      z-index: 2;
+      animation: pulse 1.4s infinite;
+      filter: blur(0.5px);
+      text-shadow:
+        0 0 6px rgba(255, 77, 136, 0.6),
+        0 0 14px rgba(255, 150, 190, 0.5),
+        0 0 22px rgba(255, 210, 225, 0.4);
+      padding: 20px 40px;
+      border-radius: 20px;
     }
 
-    .hidden {
-      opacity: 0;
-      transform: scale(0.8);
+    .center-text:hover {
+      filter: blur(0px);
+      transform: scale(1.08);
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+
+    /* Hiệu ứng biến mất */
+    .vanish {
+      animation: blurShakeFade 1s forwards;
       pointer-events: none;
+    }
+
+    @keyframes blurShakeFade {
+      0% {
+        opacity: 1;
+        transform: scale(1) translateX(0);
+        filter: blur(0px);
+      }
+      40% {
+        transform: scale(1.2) translateX(-4px);
+        filter: blur(4px);
+      }
+      60% {
+        transform: scale(1.4) translateX(4px);
+        filter: blur(8px);
+        opacity: 0.6;
+      }
+      100% {
+        opacity: 0;
+        transform: scale(2);
+        filter: blur(18px);
+      }
     }
 
     .love-text {
       position: absolute;
-      font-size: 4rem;
+      font-size: 4.2rem;
       font-weight: bold;
       color: #ff2f92;
       opacity: 0;
-      animation: fadeIn 1s forwards;
-      z-index: 2;
+      transform: scale(0.8);
+      transition: opacity 1s ease, transform 1s ease, filter 1s ease;
+      filter: blur(6px);
+      text-shadow:
+        0 0 8px rgba(255, 47, 146, 0.6),
+        0 0 16px rgba(255, 120, 180, 0.5),
+        0 0 24px rgba(255, 200, 220, 0.4);
     }
 
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
+    .love-text.show {
+      opacity: 1;
+      transform: scale(1);
+      filter: blur(0px);
     }
 
+    .love-text.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+      
+    /* Trái tim */
     .heart {
       position: absolute;
-      top: -20px;
-      color: #ff77b7;
-      font-size: 20px;
+      top: -30px;
+      color: #ff7fbf;
+      font-size: 18px;
       animation: fall linear forwards;
-      filter: drop-shadow(0 0 6px #ffb6d5);
+      filter: blur(1.5px) drop-shadow(0 0 6px #ffb6d5);
+      opacity: 0.9;
+      pointer-events: none;
     }
 
     @keyframes fall {
@@ -69,38 +122,41 @@
         opacity: 0;
       }
     }
+
   </style>
 </head>
 <body>
 
   <div id="startText" class="center-text">YEUU MITTT</div>
-  <div id="loveText" class="love-text">MIT DIENNN</div>
+  <div id="loveText" class="love-text">MITTT DIENNNNNN</div>
 
   <script>
     const startText = document.getElementById('startText');
     const loveText = document.getElementById('loveText');
 
     startText.addEventListener('click', () => {
-      startText.classList.add('hidden');
-      loveText.style.opacity = '1';
-      startHearts();
-    });
+      startText.classList.add('vanish');
 
-    function startHearts() {
+      setTimeout(() => {
+        startText.style.display = 'none';
+        loveText.classList.add('show');
+        startHearts();
+      }, 1000);
+    });
+      function startHearts() {
       setInterval(() => {
         const heart = document.createElement('div');
-        heart.classList.add('heart');
+        heart.className = 'heart';
         heart.innerHTML = '❤';
         heart.style.left = Math.random() * 100 + 'vw';
-        heart.style.fontSize = Math.random() * 20 + 15 + 'px';
-        heart.style.animationDuration = Math.random() * 3 + 3 + 's';
+        heart.style.fontSize = Math.random() * 16 + 14 + 'px';
+        heart.style.animationDuration = Math.random() * 4 + 5 + 's';
+        heart.style.filter = `blur(${Math.random() * 2 + 1}px)`;
 
         document.body.appendChild(heart);
 
-        setTimeout(() => {
-          heart.remove();
-        }, 6000);
-      }, 200);
+        setTimeout(() => heart.remove(), 9000);
+      }, 300);
     }
   </script>
 
